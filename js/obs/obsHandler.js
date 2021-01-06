@@ -363,6 +363,22 @@ class OBSHandler extends Handler {
           initY: data.position.y
         }
         break;
+        case 'size':
+          var scene = triggerData[2];
+          if (scene === '{current}') {
+            var currentScene = await this.obs.getCurrentScene();
+            scene = currentScene.name;
+          }
+          var item = triggerData[3];
+          var data = await this.obs.getSceneItemProperties(scene, item);
+          var width = parseFloat(triggerData[4]) / parseFloat(data.sourceWidth);
+          var height = parseFloat(triggerData[5]) / parseFloat(data.sourceHeight);
+          await this.obs.setSceneItemSize(scene, item, width, height);
+          return {
+            initX: data.scale.x,
+            initY: data.scale.y
+          }
+          break;
       case 'version':
         var data = await this.obs.getVersion();
         return { version: data.obsWebsocketVersion };

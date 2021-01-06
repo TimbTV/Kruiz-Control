@@ -231,11 +231,26 @@ function connectOBSWebsocket(address, password, obsHandler, onSwitchScenes, onTr
 
   obs.setSceneItemPosition = async function(scene, item, x, y) {
     await this.send('SetSceneItemProperties', {
+      'scene-name': scene,
       'item': item,
       'position': {
         'x': x,
         'y': y
       }
+    }).catch(err => { // Promise convention dictates you have a catch on every chain.
+      console.error(JSON.stringify(err));
+    });
+  };
+
+  obs.setSceneItemSize = async function(scene, item, width, height) {
+    await this.send('SetSceneItemProperties', {
+      'scene-name': scene,
+      'item': item,
+      'scale': {
+        'x': width,
+        'y': height
+	}
+
     }).catch(err => { // Promise convention dictates you have a catch on every chain.
       console.error(JSON.stringify(err));
     });
