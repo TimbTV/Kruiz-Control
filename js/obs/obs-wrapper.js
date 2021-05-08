@@ -171,6 +171,55 @@ function connectOBSWebsocket(address, password, obsHandler, onSwitchScenes, onTr
     });
   };
 
+  obs.refreshBrowser = async function(sourceName) {
+      await this.send('RefreshBrowserSource', {
+        'sourceName': sourceName
+      }).catch(err => {
+        // Promise convention dictates you have a catch on every chain.
+        console.error(JSON.stringify(err));
+      });
+    };
+
+
+  obs.playPauseMedia = async function(sourceName, playPause) {
+    await this.send('PlayPauseMedia', {
+      'sourceName': sourceName,
+      'playPause': playPause
+    }).catch(err => {
+      // Promise convention dictates you have a catch on every chain.
+      console.error(JSON.stringify(err));
+    });
+  };
+
+  obs.restartMedia = async function(sourceName) {
+    await this.send('RestartMedia', {
+      'sourceName': sourceName
+    }).catch(err => {
+      // Promise convention dictates you have a catch on every chain.
+      console.error(JSON.stringify(err));
+    });
+  };
+
+  obs.stopMedia = async function(sourceName) {
+    await this.send('StopMedia', {
+      'sourceName': sourceName
+    }).catch(err => {
+      // Promise convention dictates you have a catch on every chain.
+      console.error(JSON.stringify(err));
+    });
+  };
+
+  obs.getMediaDuration = async function(sourceName) {
+    return await this.send('GetMediaDuration', {
+      'sourceName': sourceName
+    }).then(data => {
+      return data;
+    }).catch(err => {
+      // Promise convention dictates you have a catch on every chain.
+      console.error(JSON.stringify(err));
+    });
+  };
+
   obs.setSourceText = async function(source, text) {
     await this.send('SetSourceSettings', {
       'sourceName': source,
@@ -189,6 +238,24 @@ function connectOBSWebsocket(address, password, obsHandler, onSwitchScenes, onTr
       console.error(JSON.stringify(err));
     });
   };
+
+  obs.startReplayBuffer = async function() {
+    await this.send('StartReplayBuffer').catch(err => {
+      console.error(JSON.stringify(err));
+    });
+  }
+
+  obs.stopReplayBuffer = async function() {
+    await this.send('StopReplayBuffer').catch(err => {
+      console.error(JSON.stringify(err));
+    });
+  }
+
+  obs.saveReplay = async function() {
+    await this.send('SaveReplayBuffer').catch(err => {
+      console.error(JSON.stringify(err));
+    });
+  }
 
   obs.stopStream = async function() {
     await this.send('StopStreaming').catch(err => {
@@ -251,6 +318,17 @@ function connectOBSWebsocket(address, password, obsHandler, onSwitchScenes, onTr
         'y': height
 	}
 
+    }).catch(err => { // Promise convention dictates you have a catch on every chain.
+      console.error(JSON.stringify(err));
+    });
+  };
+
+  obs.addSceneItem = async function(scene, source, status) {
+    console.error(status);
+    await this.send('AddSceneItem', {
+      'sceneName': scene,
+      'sourceName': source,
+      'setVisible': status
     }).catch(err => { // Promise convention dictates you have a catch on every chain.
       console.error(JSON.stringify(err));
     });

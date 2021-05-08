@@ -236,6 +236,50 @@ class OBSHandler extends Handler {
       case 'stopstream':
         await this.obs.stopStream();
         break;
+      case 'startreplay':
+        await this.obs.startReplayBuffer();
+        break;
+      case 'stopreplay':
+        await this.obs.stopReplayBuffer();
+        break;
+      case 'savereplay':
+        await this.obs.saveReplay();
+        await timeout(3000);
+        break;
+      case 'media':
+        var action = triggerData[2].toLowerCase();
+        switch (action) {
+          case 'play':
+            var source = triggerData[3];
+            var playPause = false;
+            await this.obs.playPauseMedia(source, playPause);
+            break;
+          case 'pause':
+            var source = triggerData[3];
+            var playPause = true;
+            await this.obs.playPauseMedia(source, playPause)
+            break;
+          case 'restart':
+            var source = triggerData[3];
+            await this.obs.restartMedia(source);
+            break;
+          case 'stop':
+            var source = triggerData[3];
+            await this.obs.stopMedia(source);
+            break;
+          case 'duration':
+            var source = triggerData[3];
+            var data = await this.obs.getMediaDuration(source);
+            return {duration: data.mediaDuration / 1000}
+            break;
+        }
+        break;
+      case 'addsceneitem':
+        var sceneName = triggerData[2];
+        var sourceName = triggerData[3];
+        var status = (triggerData[4] && triggerData[4].toLowerCase() === 'off') ? false : true;
+        await this.obs.addSceneItem(sceneName, sourceName, status)
+        break;
       case 'scene':
         var currentScene = await this.obs.getCurrentScene();
         var scene = triggerData.slice(2).join(' ');
@@ -312,6 +356,10 @@ class OBSHandler extends Handler {
           }
           await this.obs.setFilterVisibility(source, filter, status);
         }
+        break;
+      case 'refresh':
+        var source = triggerData[2];
+        await this.obs.refreshBrowser(source);
         break;
       case 'takesourcescreenshot':
         var source = triggerData.slice(2, triggerData.length - 1).join(' ');

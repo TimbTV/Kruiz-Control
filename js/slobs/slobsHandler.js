@@ -138,6 +138,16 @@ class SLOBSHandler extends Handler {
           await this.slobs.flipSourceX(scene, source);
         }
         break;
+      case 'startreplay':
+        await this.slobs.startReplayBuffer();
+        break;
+      case 'stopreplay':
+        await this.slobs.stopReplayBuffer();
+        break;
+      case 'savereplay':
+        await this.slobs.saveReplay();
+        await timeout(3000);
+        break;
       case 'rotate':
         var scene = triggerData[2];
         var source = triggerData.slice(3, triggerData.length - 1).join(' ');

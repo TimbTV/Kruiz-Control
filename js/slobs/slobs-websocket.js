@@ -69,6 +69,18 @@
     }
   }
 
+  slobsSocket.startReplayBuffer = function() {
+      slobsSocket.sendSLOBS('startReplayBuffer', 'StreamingService')
+  }
+
+  slobsSocket.stopReplayBuffer = function() {
+      slobsSocket.sendSLOBS('stopReplayBuffer', 'StreamingService')
+  }
+
+  slobsSocket.saveReplay = function() {
+      slobsSocket.sendSLOBS('saveReplay', 'StreamingService')
+  }
+
   slobsSocket.setSourceVisibility = function(scene, source, enabled) {
     scene = scene || slobsSocket.activeScene;
     var sceneInfo = slobsSocket.scenes[scene];
