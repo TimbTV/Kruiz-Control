@@ -123,7 +123,8 @@ function connectOBSWebsocket(address, password, obsHandler, onSwitchScenes, onTr
 
   obs.getVolume = async function(source) {
     return await this.send('GetVolume', {
-      'source': source
+      'source': source,
+      'useDecibel': true
     }).then(data => {
       return data;
     }).catch(err => {
@@ -135,7 +136,8 @@ function connectOBSWebsocket(address, password, obsHandler, onSwitchScenes, onTr
   obs.setVolume = async function(source, volume) {
     await this.send('SetVolume', {
       'source': source,
-      'volume': volume
+      'volume': volume,
+      'useDecibel': true
     }).catch(err => {
       // Promise convention dictates you have a catch on every chain.
       console.error(JSON.stringify(err));
